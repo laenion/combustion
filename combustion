@@ -221,7 +221,7 @@ fi
 
 # Have to take care of x-initrd.mount first and from the outside.
 # Note: ignition-kargs-helper calls combustion but already mounted those itself.
-awk '$1 !~ /^#/ && $4 ~ /(\<|,)x-initrd\.mount(\>|,)/ { if(system("findmnt /sysroot/" $2 " >/dev/null || mount --target-prefix /sysroot --fstab /sysroot/etc/fstab " $2) != 0) exit 1; }' /sysroot/etc/fstab
+awk '$1 !~ /^#/ && $4 ~ /(\<|,)x-initrd\.mount(\>|,)/ && $3 != "none" { if(system("findmnt /sysroot/" $2 " >/dev/null || mount --target-prefix /sysroot --fstab /sysroot/etc/fstab " $2) != 0) exit 1; }' /sysroot/etc/fstab
 
 # Make sure the old snapshot is relabeled too, otherwise syncing its /etc fails.
 (
